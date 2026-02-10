@@ -1,25 +1,24 @@
 import os
-from control import cauculo
+from control.cauculo import ProcessoCauculo
 import model.conexaoBancoSqlite
-import model.conexaoBancoSqlSever
+
 os.system('cls')
 
-#Atribuição a Objetos de conexão ao banco de dados-----------------------
+#Criando a conexão com o banco de dados SQLite
 conexaoSqlite = model.conexaoBancoSqlite
-conexaoSqlServer = model.conexaoBancoSqlSever
-
 
 #Entrada de dados--------------------------------------------------------
 faturamento=float(input("INFORME O VALOR DO FATURAMENTO: "))
 custo=float(input("INFORME O VALOR DE CUSTO: "))
-lucroCauculado=cauculo.caucularLucro(faturamento,custo)
 
+# Instanciando o objeto ProcessoCauculo e calculando o lucro
+processoCauculo=ProcessoCauculo(faturamento,custo)
 
-##Conexão Sqlite
+# Realizar o Cauculo do Lucro.
+lucroCauculado=processoCauculo.caucularLucro()
+
+# Realizar o Registro de Cauculo em Banco de Dados.
 conexaoSqlite.registrarRelatorio(faturamento,custo,lucroCauculado)
-##Conexão Sql sever
-conexaoSqlServer.registrarRelatorio(faturamento,custo,lucroCauculado)
-
 
 #Saída de Dados------------------------------------------------------------
 print('''\nLUCRO: ''',lucroCauculado)
